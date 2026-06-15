@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">简易待办</string>
+    <string name="title_add_todo">添加待办</string>
+    <string name="title_edit_todo">编辑待办</string>
+    <string name="title_todo_detail">待办详情</string>
+    <string name="btn_add">添加</string>
+    <string name="btn_save">保存</string>
+    <string name="btn_delete">删除</string>
+    <string name="btn_back">返回</string>
+    <string name="hint_title">输入标题</string>
+    <string name="hint_content">输入内容</string>
+    <string name="status_completed">已完成</string>
+    <string name="status_uncompleted">未完成</string>
+    <string name="btn_mark_completed">标记为已完成</string>
+    <string name="btn_mark_uncompleted">标记为未完成</string>
+    <string name="msg_delete_confirm">确定要删除这条待办吗？</string>
+    <string name="msg_no_todo">暂无待办，点击右下角添加</string>
+    <string name="msg_save_success">保存成功</string>
+    <string name="msg_delete_success">删除成功</string>
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
+</resources>
