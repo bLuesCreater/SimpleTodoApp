@@ -1,37 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/background">
 
-    <!-- 顶部渐变区域 -->
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <!-- 顶部渐变区域带标题 -->
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:background="@drawable/bg_toolbar_gradient"
-        android:gravity="bottom"
-        android:paddingHorizontal="24dp"
-        android:paddingBottom="24dp"
-        app:contentInsetStart="0dp"
-        app:contentInsetEnd="0dp">
+        android:layout_height="140dp"
+        android:background="@drawable/bg_toolbar_gradient">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_gravity="bottom|start"
+            android:orientation="vertical"
+            android:paddingHorizontal="24dp"
+            android:paddingBottom="24dp">
 
             <TextView
-                android:id="@+id/tv_greeting"
+                android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="我的待办"
                 android:textColor="@color/white"
                 android:textSize="28sp"
-                android:textStyle="bold"
-                android:fontFamily="sans-serif-medium"/>
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/tv_subtitle"
@@ -44,73 +41,72 @@
 
         </LinearLayout>
 
-    </androidx.appcompat.widget.Toolbar>
+    </FrameLayout>
 
-    <!-- 待办列表 - 使用NestedScrollView包裹以适应底部 -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_todo"
+    <!-- 内容区 -->
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="-40dp"
-        android:paddingHorizontal="16dp"
-        android:paddingTop="16dp"
-        android:paddingBottom="100dp"
-        android:clipToPadding="false"
-        android:overScrollMode="never"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-    <!-- 空状态 -->
-    <LinearLayout
-        android:id="@+id/empty_state"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="visible"
-        android:paddingHorizontal="40dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_todo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="16dp"
+            android:paddingHorizontal="16dp"
+            android:paddingBottom="80dp"
+            android:clipToPadding="false"
+            android:visibility="gone"/>
 
-        <ImageView
-            android:layout_width="140dp"
-            android:layout_height="140dp"
-            android:src="@drawable/ic_empty_state"
-            android:contentDescription="@string/msg_no_todo"
-            android:alpha="0.7"/>
+        <LinearLayout
+            android:id="@+id/empty_state"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingHorizontal="40dp">
 
-        <TextView
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/ic_empty_state"
+                android:contentDescription="@string/msg_no_todo"
+                android:alpha="0.7"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/msg_no_todo"
+                android:textColor="@color/text_secondary"
+                android:textSize="15sp"
+                android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="点击右下角的 + 按钮添加"
+                android:textColor="@color/outline"
+                android:textSize="13sp"
+                android:layout_marginTop="4dp"/>
+
+        </LinearLayout>
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/fab_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/msg_no_todo"
-            android:textColor="@color/text_secondary"
-            android:textSize="15sp"
-            android:layout_marginTop="16dp"
-            android:fontFamily="sans-serif"/>
+            android:layout_gravity="bottom|end"
+            android:layout_margin="20dp"
+            android:text="新建待办"
+            android:textColor="@color/white"
+            android:contentDescription="@string/btn_add"
+            android:icon="@android:drawable/ic_input_add"
+            app:iconTint="@color/white"
+            app:backgroundTint="@color/primary"
+            app:elevation="6dp"
+            app:iconSize="20dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="点击右下角的 + 按钮添加"
-            android:textColor="@color/outline"
-            android:textSize="13sp"
-            android:layout_marginTop="4dp"/>
+    </FrameLayout>
 
-    </LinearLayout>
-
-    <!-- FAB -->
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/fab_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="20dp"
-        android:text="新建待办"
-        android:textColor="@color/white"
-        android:contentDescription="@string/btn_add"
-        android:icon="@android:drawable/ic_input_add"
-        app:iconTint="@color/white"
-        app:backgroundTint="@color/primary"
-        app:elevation="6dp"
-        app:iconSize="20dp"/>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>

@@ -2,12 +2,12 @@ package com.andy.simpletodo;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.andy.simpletodo.data.Todo;
 import com.andy.simpletodo.data.TodoDatabaseHelper;
@@ -17,8 +17,8 @@ public class TodoDetailActivity extends AppCompatActivity {
 
     private static final int REQUEST_EDIT = 1;
 
-    private Toolbar toolbar;
-    private TextView tvTitle, tvContent, tvStatus;
+    private TextView tvToolbarTitle, tvTitle, tvContent, tvStatus;
+    private ImageButton btnBack, btnEdit;
     private MaterialButton btnStatus, btnDelete;
     private TodoDatabaseHelper dbHelper;
     private Todo currentTodo;
@@ -28,17 +28,14 @@ public class TodoDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-
         dbHelper = new TodoDatabaseHelper(this);
 
+        tvToolbarTitle = findViewById(R.id.tv_toolbar_title);
         tvTitle = findViewById(R.id.tv_title);
         tvContent = findViewById(R.id.tv_content);
         tvStatus = findViewById(R.id.tv_status);
+        btnBack = findViewById(R.id.btn_back);
+        btnEdit = findViewById(R.id.btn_edit);
         btnStatus = findViewById(R.id.btn_status);
         btnDelete = findViewById(R.id.btn_delete);
 
@@ -55,78 +52,14 @@ public class TodoDetailActivity extends AppCompatActivity {
         }
 
         displayTodo();
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(android.view.Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_detail, menu);
-        return true;
-    }
+        btnBack.setOnClickListener(v -> finish());
 
-    @Override
-    public boolean onOptionsItemSelected(android.view.MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
-        if (item.getItemId() == R.id.action_edit) {
+        btnEdit.setOnClickListener(v -> {
             Intent intent = new Intent(this, AddEditTodoActivity.class);
             intent.putExtra("todo_id", currentTodo.getId());
             startActivityForResult(intent, REQUEST_EDIT);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_EDIT && resultCode == RESULT_OK) {
-            currentTodo = dbHelper.getById(currentTodo.getId());
-            if (currentTodo != null) {
-                displayTodo();
-            }
-        }
-    }
-
-    private void displayTodo() {
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(currentTodo.getTitle());
-        }
-        tvTitle.setText(currentTodo.getTitle());
-
-        if (currentTodo.getContent() != null && !currentTodo.getContent().isEmpty()) {
-            tvContent.setText(currentTodo.getContent());
-        } else {
-            tvContent.setText("暂无内容");
-        }
-
-        updateStatusUI();
-
-        if (currentTodo.isCompleted()) {
-            btnStatus.setText(R.string.btn_mark_uncompleted);
-            btnStatus.setIconResource(android.R.drawable.ic_menu_revert);
-        } else {
-            btnStatus.setText(R.string.btn_mark_completed);
-            btnStatus.setIconResource(android.R.drawable.ic_menu_edit);
-        }
-    }
-
-    private void updateStatusUI() {
-        if (currentTodo.isCompleted()) {
-            tvStatus.setText(R.string.status_completed);
-            tvStatus.setTextColor(getColor(R.color.status_completed));
-            tvStatus.setBackgroundResource(R.drawable.bg_status_badge);
-        } else {
-            tvStatus.setText(R.string.status_uncompleted);
-            tvStatus.setTextColor(getColor(R.color.text_secondary));
-            tvStatus.setBackgroundResource(R.drawable.bg_status_badge);
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
+        });
 
         btnStatus.setOnClickListener(v -> {
             currentTodo.setCompleted(!currentTodo.isCompleted());
@@ -136,10 +69,8 @@ public class TodoDetailActivity extends AppCompatActivity {
             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
             if (currentTodo.isCompleted()) {
                 btnStatus.setText(R.string.btn_mark_uncompleted);
-                btnStatus.setIconResource(android.R.drawable.ic_menu_revert);
             } else {
                 btnStatus.setText(R.string.btn_mark_completed);
-                btnStatus.setIconResource(android.R.drawable.ic_menu_edit);
             }
         });
 
@@ -156,5 +87,45 @@ public class TodoDetailActivity extends AppCompatActivity {
                     .setNegativeButton("取消", null)
                     .show();
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_EDIT && resultCode == RESULT_OK) {
+            currentTodo = dbHelper.getById(currentTodo.getId());
+            if (currentTodo != null) {
+                displayTodo();
+            }
+        }
+    }
+
+    private void displayTodo() {
+        tvToolbarTitle.setText(currentTodo.getTitle());
+        tvTitle.setText(currentTodo.getTitle());
+
+        if (currentTodo.getContent() != null && !currentTodo.getContent().isEmpty()) {
+            tvContent.setText(currentTodo.getContent());
+        } else {
+            tvContent.setText("暂无内容");
+        }
+
+        updateStatusUI();
+
+        if (currentTodo.isCompleted()) {
+            btnStatus.setText(R.string.btn_mark_uncompleted);
+        } else {
+            btnStatus.setText(R.string.btn_mark_completed);
+        }
+    }
+
+    private void updateStatusUI() {
+        if (currentTodo.isCompleted()) {
+            tvStatus.setText(R.string.status_completed);
+            tvStatus.setTextColor(getColor(R.color.status_completed));
+        } else {
+            tvStatus.setText(R.string.status_uncompleted);
+            tvStatus.setTextColor(getColor(R.color.text_secondary));
+        }
     }
 }

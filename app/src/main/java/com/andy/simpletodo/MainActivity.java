@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,13 +18,9 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private LinearLayout emptyState;
-    private TextView tvSubtitle;
     private ExtendedFloatingActionButton fabAdd;
     private TodoDatabaseHelper dbHelper;
     private TodoAdapter adapter;
-
-    private static final int REQUEST_ADD = 1;
-    private static final int REQUEST_DETAIL = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_todo);
         emptyState = findViewById(R.id.empty_state);
         fabAdd = findViewById(R.id.fab_add);
-        tvSubtitle = findViewById(R.id.tv_subtitle);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -45,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
         fabAdd.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, AddEditTodoActivity.class);
-            startActivityForResult(intent, REQUEST_ADD);
+            startActivityForResult(intent, 1);
         });
     }
 
@@ -62,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
             adapter.setOnItemClickListener(todoId -> {
                 Intent intent = new Intent(MainActivity.this, TodoDetailActivity.class);
                 intent.putExtra("todo_id", todoId);
-                startActivityForResult(intent, REQUEST_DETAIL);
+                startActivityForResult(intent, 2);
             });
             recyclerView.setAdapter(adapter);
         } else {
@@ -74,22 +68,6 @@ public class MainActivity extends AppCompatActivity {
 
         emptyState.setVisibility(hasData ? View.GONE : View.VISIBLE);
         recyclerView.setVisibility(hasData ? View.VISIBLE : View.GONE);
-
-        if (hasData) {
-            tvSubtitle.setText("共 " + count + " 条待办 · " + getCompletedCount() + " 条已完成");
-        }
-    }
-
-    private int getCompletedCount() {
-        Cursor c = dbHelper.getAllCursor();
-        int count = 0;
-        if (c != null) {
-            int colIdx = c.getColumnIndexOrThrow(TodoDatabaseHelper.COL_IS_COMPLETED);
-            while (c.moveToNext()) {
-                if (c.getInt(colIdx) == 1) count++;
-            }
-        }
-        return count;
     }
 
     @Override

@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
@@ -35,17 +34,13 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
     }
 
     public void swapCursor(Cursor newCursor) {
-        if (cursor != null) {
-            cursor.close();
-        }
+        if (cursor != null) cursor.close();
         cursor = newCursor;
         notifyDataSetChanged();
     }
 
     public Todo getTodoAt(int position) {
-        if (cursor == null || !cursor.moveToPosition(position)) {
-            return null;
-        }
+        if (cursor == null || !cursor.moveToPosition(position)) return null;
         Todo todo = new Todo();
         todo.setId(cursor.getLong(cursor.getColumnIndexOrThrow(TodoDatabaseHelper.COL_ID)));
         todo.setTitle(cursor.getString(cursor.getColumnIndexOrThrow(TodoDatabaseHelper.COL_TITLE)));
@@ -69,7 +64,6 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
 
         holder.tvTitle.setText(todo.getTitle());
 
-        // 预览内容
         if (todo.getContent() != null && !todo.getContent().isEmpty()) {
             holder.tvPreview.setVisibility(View.VISIBLE);
             holder.tvPreview.setText(todo.getContent());
@@ -77,23 +71,16 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
             holder.tvPreview.setVisibility(View.GONE);
         }
 
-        // 时间
         holder.tvTime.setText(todo.getFormattedTime());
 
-        // 状态样式
         if (todo.isCompleted()) {
-            // 已完成：绿色填充圆 + 勾 + 状态标签
             holder.statusIndicator.setBackgroundResource(R.drawable.bg_status_circle_filled);
-            holder.ivCheck.setVisibility(View.VISIBLE);
             holder.tvStatus.setText(R.string.status_completed);
             holder.tvStatus.setTextColor(ContextCompat.getColor(context, R.color.status_completed));
-            // 标题变灰 + 删除线
             holder.tvTitle.setTextColor(ContextCompat.getColor(context, R.color.text_secondary));
             holder.tvTitle.getPaint().setStrikeThruText(true);
         } else {
-            // 未完成：空心圆 + 无勾
             holder.statusIndicator.setBackgroundResource(R.drawable.bg_status_circle);
-            holder.ivCheck.setVisibility(View.GONE);
             holder.tvStatus.setText(R.string.status_uncompleted);
             holder.tvStatus.setTextColor(ContextCompat.getColor(context, R.color.text_secondary));
             holder.tvTitle.setTextColor(ContextCompat.getColor(context, R.color.text_primary));
@@ -101,9 +88,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
         }
 
         holder.itemView.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onItemClick(todo.getId());
-            }
+            if (listener != null) listener.onItemClick(todo.getId());
         });
     }
 
@@ -114,13 +99,11 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         View statusIndicator;
-        ImageView ivCheck;
         TextView tvTitle, tvPreview, tvStatus, tvTime;
 
         public ViewHolder(View itemView) {
             super(itemView);
             statusIndicator = itemView.findViewById(R.id.status_indicator);
-            ivCheck = itemView.findViewById(R.id.iv_check);
             tvTitle = itemView.findViewById(R.id.tv_title);
             tvPreview = itemView.findViewById(R.id.tv_preview);
             tvStatus = itemView.findViewById(R.id.tv_status);
