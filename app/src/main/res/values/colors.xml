@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#FF6200EE</color>
-    <color name="primary_variant">#FF3700B3</color>
-    <color name="secondary">#FF03DAC5</color>
+    <color name="primary">#006B5E</color>
+    <color name="primary_dark">#005048</color>
+    <color name="primary_container">#7CF8E1</color>
+    <color name="on_primary_container">#00201B</color>
+    <color name="secondary">#4A635C</color>
+    <color name="secondary_container">#CCE8DF</color>
+    <color name="tertiary">#446379</color>
     <color name="white">#FFFFFFFF</color>
     <color name="black">#FF000000</color>
-    <color name="background">#FFF5F5F5</color>
-    <color name="surface">#FFFFFFFF</color>
-    <color name="text_primary">#DE000000</color>
-    <color name="text_secondary">#8A000000</color>
-    <color name="divider">#1F000000</color>
-    <color name="status_completed">#FF4CAF50</color>
-    <color name="status_uncompleted">#FF9E9E9E</color>
+    <color name="background">#FFFBF8</color>
+    <color name="surface">#FFFBF8</color>
+    <color name="surface_variant">#DBE5DF</color>
+    <color name="text_primary">#1A1C1B</color>
+    <color name="text_secondary">#6D7672</color>
+    <color name="outline">#717974</color>
+    <color name="status_completed">#006B5E</color>
+    <color name="status_uncompleted">#9CA9A3</color>
+    <color name="card_bg">#FFFFFFFF</color>
+    <color name="divider">#E2E8E4</color>
+    <color name="gradient_start">#006B5E</color>
+    <color name="gradient_end">#009688</color>
+    <color name="delete_red">#BA1A1A</color>
 </resources>

@@ -17,9 +17,9 @@ public class TodoDetailActivity extends AppCompatActivity {
 
     private static final int REQUEST_EDIT = 1;
 
+    private Toolbar toolbar;
     private TextView tvTitle, tvContent, tvStatus;
     private MaterialButton btnStatus, btnDelete;
-    private Toolbar toolbar;
     private TodoDatabaseHelper dbHelper;
     private Todo currentTodo;
 
@@ -90,6 +90,9 @@ public class TodoDetailActivity extends AppCompatActivity {
     }
 
     private void displayTodo() {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(currentTodo.getTitle());
+        }
         tvTitle.setText(currentTodo.getTitle());
 
         if (currentTodo.getContent() != null && !currentTodo.getContent().isEmpty()) {
@@ -102,8 +105,10 @@ public class TodoDetailActivity extends AppCompatActivity {
 
         if (currentTodo.isCompleted()) {
             btnStatus.setText(R.string.btn_mark_uncompleted);
+            btnStatus.setIconResource(android.R.drawable.ic_menu_revert);
         } else {
             btnStatus.setText(R.string.btn_mark_completed);
+            btnStatus.setIconResource(android.R.drawable.ic_menu_edit);
         }
     }
 
@@ -111,9 +116,11 @@ public class TodoDetailActivity extends AppCompatActivity {
         if (currentTodo.isCompleted()) {
             tvStatus.setText(R.string.status_completed);
             tvStatus.setTextColor(getColor(R.color.status_completed));
+            tvStatus.setBackgroundResource(R.drawable.bg_status_badge);
         } else {
             tvStatus.setText(R.string.status_uncompleted);
             tvStatus.setTextColor(getColor(R.color.text_secondary));
+            tvStatus.setBackgroundResource(R.drawable.bg_status_badge);
         }
     }
 
@@ -125,25 +132,28 @@ public class TodoDetailActivity extends AppCompatActivity {
             currentTodo.setCompleted(!currentTodo.isCompleted());
             dbHelper.update(currentTodo);
             updateStatusUI();
+            String msg = currentTodo.isCompleted() ? "已标记为完成 ✓" : "已标记为未完成";
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
             if (currentTodo.isCompleted()) {
                 btnStatus.setText(R.string.btn_mark_uncompleted);
-                Toast.makeText(this, "已标记为完成", Toast.LENGTH_SHORT).show();
+                btnStatus.setIconResource(android.R.drawable.ic_menu_revert);
             } else {
                 btnStatus.setText(R.string.btn_mark_completed);
-                Toast.makeText(this, "已标记为未完成", Toast.LENGTH_SHORT).show();
+                btnStatus.setIconResource(android.R.drawable.ic_menu_edit);
             }
         });
 
         btnDelete.setOnClickListener(v -> {
             new AlertDialog.Builder(this)
-                    .setMessage(R.string.msg_delete_confirm)
-                    .setPositiveButton(R.string.confirm, (dialog, which) -> {
+                    .setTitle("删除待办")
+                    .setMessage("确定要删除「" + currentTodo.getTitle() + "」吗？")
+                    .setPositiveButton("删除", (dialog, which) -> {
                         dbHelper.delete(currentTodo.getId());
-                        Toast.makeText(this, R.string.msg_delete_success, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "已删除 ✓", Toast.LENGTH_SHORT).show();
                         setResult(RESULT_OK);
                         finish();
                     })
-                    .setNegativeButton(R.string.cancel, null)
+                    .setNegativeButton("取消", null)
                     .show();
         });
     }

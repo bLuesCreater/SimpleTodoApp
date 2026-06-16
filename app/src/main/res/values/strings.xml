@@ -15,6 +15,7 @@
     <string name="btn_mark_completed">标记为已完成</string>
     <string name="btn_mark_uncompleted">标记为未完成</string>
     <string name="msg_delete_confirm">确定要删除这条待办吗？</string>
+    <string name="delete_dialog_title">删除待办</string>
     <string name="msg_no_todo">暂无待办，点击右下角添加</string>
     <string name="msg_save_success">保存成功</string>
     <string name="msg_delete_success">删除成功</string>

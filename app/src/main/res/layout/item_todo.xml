@@ -4,16 +4,52 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
-    app:cardCornerRadius="12dp"
+    android:layout_marginBottom="10dp"
+    app:cardCornerRadius="16dp"
     app:cardElevation="2dp"
-    app:strokeWidth="0dp">
+    app:cardBackgroundColor="@color/card_bg"
+    app:strokeWidth="0dp"
+    app:contentPadding="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:layout_height="wrap_content">
 
+        <!-- 左侧彩色装饰条 -->
+        <View
+            android:id="@+id/accent_bar"
+            android:layout_width="4dp"
+            android:layout_height="0dp"
+            android:background="@drawable/bg_accent_bar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <!-- 状态圆形指示器 -->
+        <View
+            android:id="@+id/status_indicator"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_status_circle"
+            app:layout_constraintStart_toEndOf="@id/accent_bar"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <!-- 完成状态勾选图标 -->
+        <ImageView
+            android:id="@+id/iv_check"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:src="@drawable/ic_check"
+            android:visibility="gone"
+            android:tint="@color/white"
+            app:layout_constraintStart_toStartOf="@id/status_indicator"
+            app:layout_constraintTop_toTopOf="@id/status_indicator"
+            app:layout_constraintEnd_toEndOf="@id/status_indicator"
+            app:layout_constraintBottom_toBottomOf="@id/status_indicator"/>
+
+        <!-- 标题 -->
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="0dp"
@@ -23,44 +59,67 @@
             android:textStyle="bold"
             android:maxLines="1"
             android:ellipsize="end"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/tv_status"
-            app:layout_constraintTop_toTopOf="parent"/>
+            android:layout_marginStart="12dp"
+            android:fontFamily="sans-serif-medium"
+            app:layout_constraintStart_toEndOf="@id/status_indicator"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/status_indicator"/>
 
+        <!-- 预览内容 -->
         <TextView
             android:id="@+id/tv_preview"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
+            android:textSize="13sp"
             android:textColor="@color/text_secondary"
             android:maxLines="1"
             android:ellipsize="end"
             android:layout_marginTop="4dp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="sans-serif"
+            app:layout_constraintStart_toStartOf="@id/tv_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_title"/>
 
+        <!-- 底部区域 -->
+        <View
+            android:id="@+id/bottom_divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/divider"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="@id/accent_bar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_preview"/>
+
+        <!-- 时间 -->
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@color/text_secondary"
+            android:paddingVertical="8dp"
+            android:paddingStart="20dp"
+            android:fontFamily="sans-serif"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bottom_divider"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <!-- 状态标签 -->
         <TextView
             android:id="@+id/tv_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
+            android:textSize="11sp"
             android:textStyle="bold"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="2dp"
-            android:background="@drawable/bg_status_badge"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="4dp"
+            android:layout_marginEnd="12dp"
+            android:fontFamily="sans-serif-medium"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-
-        <TextView
-            android:id="@+id/tv_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:textColor="@color/text_secondary"
-            android:layout_marginTop="4dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_preview"/>
+            app:layout_constraintTop_toTopOf="@id/tv_time"
+            app:layout_constraintBottom_toBottomOf="@id/tv_time"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

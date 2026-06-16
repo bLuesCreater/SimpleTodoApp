@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+    <!-- 圆形背景 -->
+    <path
+        android:fillColor="#E2F2ED"
+        android:pathData="M100,20a80,80 0,1,0 0,160a80,80 0,1,0 0,-160z"/>
+    <!-- 文档图标 -->
+    <path
+        android:fillColor="#006B5E"
+        android:pathData="M80,55h40c3,0 5,2 5,5v80c0,3 -2,5 -5,5H80c-3,0 -5,-2 -5,-5V60c0,-3 2,-5 5,-5z"/>
+    <!-- 文档内线条 -->
+    <path
+        android:fillColor="#7CF8E1"
+        android:pathData="M90,75h25v3H90zM90,85h25v3H90zM90,95h25v3H90zM90,105h15v3H90z"/>
+    <!-- 勾选标记 -->
+    <path
+        android:fillColor="#006B5E"
+        android:pathData="M125,80l-3,-3l-8,8l-4,-4l-3,3l7,7z"/>
+    <!-- 加号 -->
+    <path
+        android:pathData="M120,125m-10,0a10,10 0,1,0 20,0a10,10 0,1,0 -20,0"
+        android:strokeWidth="2"
+        android:strokeColor="#FFFFFF"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M116,125h8M120,121v8"/>
+</vector>

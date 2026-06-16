@@ -1,6 +1,9 @@
 package com.andy.simpletodo;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +17,8 @@ public class AddEditTodoActivity extends AppCompatActivity {
 
     private TextInputEditText etTitle, etContent;
     private MaterialButton btnSave;
+    private ImageButton btnBack;
+    private TextView tvPageTitle;
     private TodoDatabaseHelper dbHelper;
     private long editId = -1;
 
@@ -27,14 +32,17 @@ public class AddEditTodoActivity extends AppCompatActivity {
         etTitle = findViewById(R.id.et_title);
         etContent = findViewById(R.id.et_content);
         btnSave = findViewById(R.id.btn_save);
+        btnBack = findViewById(R.id.btn_back);
+        tvPageTitle = findViewById(R.id.tv_page_title);
 
-        // Check if editing an existing todo
+        btnBack.setOnClickListener(v -> finish());
+
         editId = getIntent().getLongExtra("todo_id", -1);
         if (editId != -1) {
-            setTitle(R.string.title_edit_todo);
+            tvPageTitle.setText(R.string.title_edit_todo);
             loadTodoForEdit(editId);
         } else {
-            setTitle(R.string.title_add_todo);
+            tvPageTitle.setText(R.string.title_add_todo);
         }
 
         btnSave.setOnClickListener(v -> saveTodo());
@@ -45,6 +53,7 @@ public class AddEditTodoActivity extends AppCompatActivity {
         if (todo != null) {
             etTitle.setText(todo.getTitle());
             etContent.setText(todo.getContent());
+            etTitle.setSelection(todo.getTitle().length());
         }
     }
 
@@ -58,7 +67,6 @@ public class AddEditTodoActivity extends AppCompatActivity {
         }
 
         if (editId != -1) {
-            // Update existing
             Todo todo = dbHelper.getById(editId);
             if (todo != null) {
                 todo.setTitle(title);
@@ -66,12 +74,11 @@ public class AddEditTodoActivity extends AppCompatActivity {
                 dbHelper.update(todo);
             }
         } else {
-            // Insert new
             Todo todo = new Todo(title, content);
             dbHelper.insert(todo);
         }
 
-        Toast.makeText(this, R.string.msg_save_success, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "保存成功 ✓", Toast.LENGTH_SHORT).show();
         setResult(RESULT_OK);
         finish();
     }
